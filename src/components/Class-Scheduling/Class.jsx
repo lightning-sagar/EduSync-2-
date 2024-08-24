@@ -22,11 +22,11 @@ const Class = ({ onNextClassTime }) => {
             ...prevExpanded,
             [id]: !prevExpanded[id]
         }));
-    };
+    }; 
 
     const getNextClassTime = () => {
         const now = new Date();
-        const currentTime = now.getHours() * 60 + now.getMinutes(); 
+        const currentTime = now.getHours() * 60 + now.getMinutes();
         console.log(`Current Time in Minutes: ${currentTime}`);
 
         // Find the first class that is after the current time
