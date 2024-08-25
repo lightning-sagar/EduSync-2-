@@ -5,7 +5,8 @@ import Login from './components/Login/Login';
 import Home from './pages/Home/Home';
 import Features from './pages/Features/Features';
 import About from './pages/About/About';
-import Quizes from './pages/Quizes/Quizes';
+import Quizzes from './pages/Quizes/Quizes';
+import Profile from './pages/Profile/Profile';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,7 +21,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<Features />} />
           <Route path="/about" element={<About />} />
-          <Route path="/quizes" element={<Quizes />} />
+          <Route path="/quizzes" element={<Quizzes />} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </>
     </Router>

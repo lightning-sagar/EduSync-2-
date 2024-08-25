@@ -36,7 +36,8 @@ const Navbar = ({ setShowLogin }) => {
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/features">Features</Link></li>
                     <li><Link to="/about">About us</Link></li>
-                    <li><Link to="/quizes">Quizes</Link></li>
+                    <li><Link to="/quizzes">Quizzes</Link></li>
+                    <li><Link to="/profile">Profile</Link></li>
                 </ul>
             </div>
             <div className="modes">
