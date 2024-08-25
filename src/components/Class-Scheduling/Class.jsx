@@ -130,7 +130,7 @@ const Class = ({ onNextClassTime }) => {
                                 required
                             />
                             {newCoverImage && <p>Selected File: {newCoverImage.name}</p>}
-                            <button type="submit">Add Subject</button>
+                            <button className='add-subject-btn' type="submit">Add Subject</button>
                         </form>
                     </div>
                 </div>
