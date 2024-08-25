@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Home.css'; 
-import Class from '../../components/Class-Scheduling/Class';
+import ClassScheduling from '../../components/Class-Scheduling/Class-scheduling';
 
 const Home = () => {
     const [nextClassTime, setNextClassTime] = useState('');
@@ -14,8 +14,9 @@ const Home = () => {
             <div className="flashmessage">
                 {nextClassTime && `Your next class will be at ${nextClassTime}`}
             </div>
-            <Class onNextClassTime={handleNextClassTime} />
+            <ClassScheduling onNextClassTime={handleNextClassTime} />
         </div>
+        
     );
 }
 

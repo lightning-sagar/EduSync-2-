@@ -7,6 +7,7 @@ import Features from './pages/Features/Features';
 import About from './pages/About/About';
 import Quizzes from './pages/Quizes/Quizes';
 import Profile from './pages/Profile/Profile';
+import Class from './components/Class/Class';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -23,8 +24,9 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/subject/:id" element={<Class />} />
         </Routes>
-      </>
+      </> 
     </Router>
   );
 };

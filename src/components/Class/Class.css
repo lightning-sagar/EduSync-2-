@@ -1,0 +1,139 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.class-container {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    background-color: #212121;
+    color: white;
+  }
+
+  .sidebar {
+    color: white;
+    flex: 1;
+    background-color:  #212121;
+    padding: 20px;
+    max-width: 300px;
+ 
+   
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    border: none;
+    margin: 40px;
+    padding: 18px 20px;
+    font-size: 18px;
+  
+    color: white;
+    cursor: pointer;
+  }
+  
+  .sidebar ul li:hover {
+    border: 2px solid blue;
+  }
+
+  .content {
+    border-left: 2px solid white;
+    flex: 3;
+    padding: 20px;
+    color: white;
+    background-color: #212121;
+  }
+  
+ 
+  .notice {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .notice h2 {
+    color: white;
+
+    margin: 0 0 10px 0;
+    font-size: 24px;
+  }
+  
+  .notice p {
+    margin: 0;
+    font-size: 16px;
+    color: white;
+
+  }
+ 
+  .assignment {
+    background-color: gray;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .assignment h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    color: white;
+    
+  }
+  
+  .assignment p {
+    margin: 0;
+    font-size: 16px;
+    color: white;
+
+  }
+  .create {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;  
+    z-index: 1000;
+  }
+  
+  .create-button {
+    padding: 15px 20px; 
+    background-color: green; 
+    color: white;
+    border: none;
+    border-radius: 10px; 
+    cursor: pointer; 
+  }
+  
+  .create-button:hover {
+    background-color: #0056b3; 
+  
+  
+  @media (max-width: 768px) {
+    .class-container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .content {
+      padding: 10px;
+    }
+  
+    .notice, .assignment {
+      padding: 15px;
+    }
+  
+    .notice h2, .assignment h3 {
+      font-size: 20px;
+    }
+  
+    .notice p, .assignment p {
+      font-size: 14px;
+    }
+  }
+}
+  
