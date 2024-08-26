@@ -1,0 +1,80 @@
+.chatBot-icon {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  z-index: 1000;
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  transition: transform 0.5s ease;
+}
+
+.chatBot-icon:hover {
+  transform: scale(1.05);
+}
+
+.chatBot-popup {
+  position: fixed;
+  bottom: 150px;
+  right: 30px;
+  width: 300px;
+  max-width: 90%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+.chatBot-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #071524;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.chatBot-popup-body {
+  padding: 10px;
+}
+
+.chatBot-popup-body p {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.chatBot-popup-body input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.send-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #008000;
+  color: black;
+  border: none;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.send-btn:hover {
+  background-color: #56bc56;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgb(169, 36, 36);
+  font-size: 1.5rem;
+  cursor: pointer;
+}

@@ -8,6 +8,7 @@ import About from './pages/About/About';
 import Quizzes from './pages/Quizes/Quizes';
 import Profile from './pages/Profile/Profile';
 import Class from './components/Class/Class';
+import Chatbot from './components/ChatBot/Chatbot';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -25,7 +26,10 @@ const App = () => {
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/subject/:id" element={<Class />} />
+        
         </Routes>
+        <Chatbot />
+       
       </> 
     </Router>
   );
