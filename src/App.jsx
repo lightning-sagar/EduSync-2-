@@ -9,6 +9,7 @@ import Quizzes from './pages/Quizes/Quizes';
 import Profile from './pages/Profile/Profile';
 import Class from './components/Class/Class';
 import Chatbot from './components/ChatBot/Chatbot';
+import Ebook from './components/Ebook/Ebook';
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -26,7 +27,7 @@ const App = () => {
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/subject/:id" element={<Class />} />
-        
+          <Route path="/ebook/:id" element={<Ebook/>} /> {/* Route for eBook details */}
         </Routes>
         <Chatbot />
        

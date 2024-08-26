@@ -38,10 +38,12 @@
     margin: 0 20px;
     font-size: 20px;
     cursor: pointer;
+    background-color:transparent;
+    transition: 0.5;
 }
 
 .menu ul li:hover {
-    color: #212121;
+    transform: scale(1.05);
 }
 
 .modes {
