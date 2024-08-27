@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdDelete } from "react-icons/md";
 import usePreviewImg from '../../hooks/usePrevImg.jsx';
 import './Class-scheduling.css';
 import profileIcon from '../../assets/profile_icon.png';
@@ -7,12 +8,13 @@ import add_icon from '../../assets/add_icon_white.png';
 import userAtom from '../../atom/UserAtom.js';
 import subjectAtom from '../../atom/SubjectAtom.js';
 import { useRecoilValue, useRecoilState } from 'recoil';
+import upload_area from '../../assets/upload_area.png';
 
 const Class = ({ onNextClassTime }) => {
     const [expanded, setExpanded] = useState({});
     const [showPopup, setShowPopup] = useState(false);
     const [newSubject, setNewSubject] = useState('');
-    const [newDescription, setNewDescription] = useState(''); // New state for description
+    const [newDescription, setNewDescription] = useState('');
     const navigate = useNavigate();
 
     const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
@@ -28,14 +30,14 @@ const Class = ({ onNextClassTime }) => {
                     credentials: 'include',
                 });
                 const data = await response.json();
-                setSubject(data); // Directly setting the fetched data
+                setSubject(data);
             } catch (error) {
                 console.error(error);
             }
         };
 
         getSubjects();
-    }, [setSubject]);
+    }, [setSubject, user]);
 
     const handleToggleDescription = (id) => {
         setExpanded((prevExpanded) => ({
@@ -51,7 +53,7 @@ const Class = ({ onNextClassTime }) => {
     const handlePopupClose = () => {
         setShowPopup(false);
         setNewSubject('');
-        setNewDescription(''); // Reset description field
+        setNewDescription('');
         setImgUrl(null);
     };
 
@@ -60,7 +62,7 @@ const Class = ({ onNextClassTime }) => {
     };
 
     const handleDescriptionChange = (e) => {
-        setNewDescription(e.target.value); // Capture the description input
+        setNewDescription(e.target.value);
     };
 
     const handleFormSubmit = async (e) => {
@@ -69,7 +71,7 @@ const Class = ({ onNextClassTime }) => {
             const dataToSend = {
                 subjectname: newSubject,
                 coverImg: imgUrl,
-                description: newDescription, // Include the description in the data
+                description: newDescription,
             };
 
             const response = await fetch('/api/s/subject', {
@@ -94,13 +96,15 @@ const Class = ({ onNextClassTime }) => {
         handlePopupClose();
     };
 
+
+
     const getNextClassTime = () => {
         const now = new Date();
         const currentTime = now.getHours() * 60 + now.getMinutes();
 
         if (subject.length > 0) {
             const upcomingClass = subject.find((classItem) => {
-                if (!classItem.time) return false; // Check if time exists
+                if (!classItem.time) return false;
                 const [time, period] = classItem.time.split(' ');
                 let [hours, minutes] = time.split(':').map(Number);
                 if (period === 'PM' && hours < 12) hours += 12;
@@ -132,9 +136,14 @@ const Class = ({ onNextClassTime }) => {
                         <div
                             key={classItem._id}
                             className="class-card"
-                            onClick={() => handleCardClick(classItem._id)}
                         >
-                            <h3>{classItem.sname}</h3>
+                            <div className="subject-header">
+                                <h3 onClick={() => handleCardClick(classItem._id)}>{classItem.sname}</h3>
+                                <MdDelete
+                                    className="delete-icon"
+                                   
+                                />
+                            </div>
                             <div className="class-info">
                                 <img src={profileIcon} alt="Profile Icon" className="profile-icon" />
                                 <div>
@@ -169,10 +178,15 @@ const Class = ({ onNextClassTime }) => {
                         <h3>Add New Subject</h3>
                         <form onSubmit={handleFormSubmit}>
                             <div className="form-row">
+                                <div className="upload-area" onClick={() => document.getElementById('fileInput').click()}>
+                                    <img src={upload_area} alt="Upload Area" className="upload-placeholder" />
+                                </div>
                                 <input
+                                    id="fileInput"
                                     type="file"
                                     accept="image/*"
                                     onChange={handleImageChange}
+                                    style={{ display: 'none' }}
                                     required
                                 />
                                 {imgUrl && <img src={imgUrl} alt="Cover Preview" className="cover-preview" />}
@@ -187,7 +201,7 @@ const Class = ({ onNextClassTime }) => {
                             <input
                                 type="text"
                                 placeholder="Add the description here"
-                                value={newDescription} // Bind description state to input
+                                value={newDescription}
                                 onChange={handleDescriptionChange}
                                 required
                             />

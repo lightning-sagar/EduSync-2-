@@ -52,7 +52,7 @@ const Chatbot = () => {
             </div>
             <div className='input-container'>
               <input
-                type='text'
+                type='text' id="chat"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder='Type your message...'
