@@ -61,27 +61,27 @@
   }
   
   .attendance {
-    background-image: url('./../../assets/attendance.jpg'); /* Replace with actual image path */
+    background-image: url('./../../assets/attendance.jpg'); 
   }
   
   .resource {
-    background-image: url('./../../assets/resource-management.jpg'); /* Replace with actual image path */
+    background-image: url('./../../assets/resource-management.jpg'); 
   }
   
   .security {
-    background-image: url('./../../assets/safety-security-alerts.jpg'); /* Replace with actual image path */
+    background-image: url('./../../assets/safety-security-alerts.jpg'); 
   }
   
   .learning {
-    background-image: url('/images/learning.jpg'); /* Replace with actual image path */
+    background-image: url('../../assets/learning-tools.jpg') 
   }
   
   .analytics {
-    background-image: url('/images/analytics.jpg'); /* Replace with actual image path */
+    background-image: url('../../assets/analytics.jpg'); 
   }
   
   .chatbot {
-    background-image: url('/images/chatbot.jpg'); /* Replace with actual image path */
+    background-image: url('../../assets/chatbot.jpg'); 
   }
   
   .feature-content {
