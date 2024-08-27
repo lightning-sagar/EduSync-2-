@@ -155,8 +155,8 @@ const Class = ({ onNextClassTime }) => {
                                             handleToggleDescription(classItem._id);
                                         }}
                                     >
-                                        {isExpanded ? classItem.description : `${classItem.description?.slice(0, 7)}... `}
-                                        {classItem.description?.length > 7 && (
+                                        {isExpanded ? classItem.desc : `${classItem.desc?.slice(0, 7)}... `}
+                                        {classItem.desc?.length > 7 && (
                                             <span className="show-more">
                                                 {isExpanded ? ' Show less' : ' Show more'}
                                             </span>

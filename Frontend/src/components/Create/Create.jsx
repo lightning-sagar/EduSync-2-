@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
 import './Create.css';
+import usePreviewImg from '../../hooks/usePrevImg';
 
-const Create = () => {
+const Create = ({ subjectId }) => {
   const [textContent, setTextContent] = useState('');
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([]); // Added files state
+  const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    console.log("Subject ID:", subjectId);
+    
+    if (!subjectId) {
+      console.error('Subject ID not found');
+      return;
+    }
+    console.log(textContent,imgUrl)
+    try {
+      const response = await fetch(`/api/s/subject/${subjectId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ textContent, imgUrl })
+      });
 
-  const handleFileUpload = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles([...files, ...selectedFiles]);
-  };
-
-  const handleSubmit = () => {
-    // Handle submission logic here
-    console.log('Text Content:', textContent);
-    console.log('Files:', files);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const data = await response.json();
+      console.log('Success:', data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -34,9 +54,9 @@ const Create = () => {
         <input
           type="file"
           id="file-upload"
-          accept=".txt,.pdf,.zip,.jpg,.jpeg,.png,.gif,.mp4,.mov" // Adjust this to include the types of files you want
+          accept=".jpg,.jpeg,.png"  
           multiple
-          onChange={handleFileUpload}
+          onChange={handleImageChange}
         />
       </div>
       <button className="submit-button" onClick={handleSubmit}>
