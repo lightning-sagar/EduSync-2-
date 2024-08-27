@@ -43,6 +43,7 @@ const LoginPopUp = ({setShowLogin }) => {
     } catch (error) {
       console.log(error)
     }
+    setShowLogin(false);
   }
 
   return (

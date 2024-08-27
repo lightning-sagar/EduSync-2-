@@ -12,6 +12,7 @@ const Class = ({ onNextClassTime }) => {
     const [expanded, setExpanded] = useState({});
     const [showPopup, setShowPopup] = useState(false);
     const [newSubject, setNewSubject] = useState('');
+    const [newDescription, setNewDescription] = useState(''); // New state for description
     const navigate = useNavigate();
 
     const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
@@ -20,13 +21,13 @@ const Class = ({ onNextClassTime }) => {
 
     useEffect(() => {
         const getSubjects = async () => {
+            if (!user) return;
             try {
                 const response = await fetch(`/api/s/${user._id}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
                 const data = await response.json();
-                console.log(data, "data");
                 setSubject(data); // Directly setting the fetched data
             } catch (error) {
                 console.error(error);
@@ -34,7 +35,7 @@ const Class = ({ onNextClassTime }) => {
         };
 
         getSubjects();
-    }, [setSubject, user._id]);
+    }, [setSubject]);
 
     const handleToggleDescription = (id) => {
         setExpanded((prevExpanded) => ({
@@ -50,11 +51,16 @@ const Class = ({ onNextClassTime }) => {
     const handlePopupClose = () => {
         setShowPopup(false);
         setNewSubject('');
+        setNewDescription(''); // Reset description field
         setImgUrl(null);
     };
 
     const handleSubjectChange = (e) => {
         setNewSubject(e.target.value);
+    };
+
+    const handleDescriptionChange = (e) => {
+        setNewDescription(e.target.value); // Capture the description input
     };
 
     const handleFormSubmit = async (e) => {
@@ -63,9 +69,8 @@ const Class = ({ onNextClassTime }) => {
             const dataToSend = {
                 subjectname: newSubject,
                 coverImg: imgUrl,
+                description: newDescription, // Include the description in the data
             };
-
-            console.log(dataToSend, "dataToSend");
 
             const response = await fetch('/api/s/subject', {
                 method: 'POST',
@@ -77,7 +82,6 @@ const Class = ({ onNextClassTime }) => {
             });
 
             const data = await response.json();
-            console.log("Subject added:", data);
 
             if (data.err) {
                 console.error("Failed to add subject");
@@ -93,20 +97,21 @@ const Class = ({ onNextClassTime }) => {
     const getNextClassTime = () => {
         const now = new Date();
         const currentTime = now.getHours() * 60 + now.getMinutes();
-    
-        const upcomingClass = subject.find((classItem) => {
-            if (!classItem.time) return false; // Check if `time` exists
-            const [time, period] = classItem.time.split(' ');
-            let [hours, minutes] = time.split(':').map(Number);
-            if (period === 'PM' && hours < 12) hours += 12;
-            if (period === 'AM' && hours === 12) hours = 0;
-            const classTime = hours * 60 + minutes;
-            return classTime > currentTime;
-        });
-    
-        return upcomingClass ? upcomingClass.time : 'No upcoming classes';
+
+        if (subject.length > 0) {
+            const upcomingClass = subject.find((classItem) => {
+                if (!classItem.time) return false; // Check if time exists
+                const [time, period] = classItem.time.split(' ');
+                let [hours, minutes] = time.split(':').map(Number);
+                if (period === 'PM' && hours < 12) hours += 12;
+                if (period === 'AM' && hours === 12) hours = 0;
+                const classTime = hours * 60 + minutes;
+                return classTime > currentTime;
+            });
+
+            return upcomingClass ? upcomingClass.time : 'No upcoming classes';
+        }
     };
-    
 
     useEffect(() => {
         if (onNextClassTime) {
@@ -121,7 +126,7 @@ const Class = ({ onNextClassTime }) => {
     return (
         <div className="class-container1">
             <div className="class-cards">
-                {subject.map((classItem) => {
+                {subject && subject.length > 0 && subject.map((classItem) => {
                     const isExpanded = expanded[classItem._id];
                     return (
                         <div
@@ -141,7 +146,7 @@ const Class = ({ onNextClassTime }) => {
                                             handleToggleDescription(classItem._id);
                                         }}
                                     >
-                                        {isExpanded ? classItem.description : `${classItem.description?.slice(0, 7)}...`}
+                                        {isExpanded ? classItem.description : `${classItem.description?.slice(0, 7)}... `}
                                         {classItem.description?.length > 7 && (
                                             <span className="show-more">
                                                 {isExpanded ? ' Show less' : ' Show more'}
@@ -163,6 +168,15 @@ const Class = ({ onNextClassTime }) => {
                         <span className="close-popup" onClick={handlePopupClose}>&times;</span>
                         <h3>Add New Subject</h3>
                         <form onSubmit={handleFormSubmit}>
+                            <div className="form-row">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    required
+                                />
+                                {imgUrl && <img src={imgUrl} alt="Cover Preview" className="cover-preview" />}
+                            </div>
                             <input
                                 type="text"
                                 placeholder="Enter subject name"
@@ -171,13 +185,13 @@ const Class = ({ onNextClassTime }) => {
                                 required
                             />
                             <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageChange}
+                                type="text"
+                                placeholder="Add the description here"
+                                value={newDescription} // Bind description state to input
+                                onChange={handleDescriptionChange}
                                 required
                             />
-                            {imgUrl && <img src={imgUrl} alt="Cover Preview" className="cover-preview" />}
-                            <button className='add-subject-btn' type="submit">Add Subject</button>
+                            <button className="add-subject-btn" type="submit">Add Subject</button>
                         </form>
                     </div>
                 </div>
