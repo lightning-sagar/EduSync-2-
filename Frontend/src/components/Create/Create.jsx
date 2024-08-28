@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './Create.css';
 import usePreviewImg from '../../hooks/usePrevImg';
+import uploadIcon from '../../assets/upload_area.png'; 
 
 const Create = ({ subjectId }) => {
   const [textContent, setTextContent] = useState('');
-  const [files, setFiles] = useState([]); // Added files state
-  const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
+  const { handleImageChange, imgUrl } = usePreviewImg();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -15,7 +16,7 @@ const Create = ({ subjectId }) => {
       console.error('Subject ID not found');
       return;
     }
-    console.log(textContent,imgUrl)
+    console.log(textContent, imgUrl);
     try {
       const response = await fetch(`/api/s/subject/${subjectId}`, {
         method: 'POST',
@@ -51,13 +52,23 @@ const Create = ({ subjectId }) => {
       </div>
       <div className="form-group">
         <label htmlFor="file-upload">Upload Files:</label>
-        <input
-          type="file"
-          id="file-upload"
-          accept=".jpg,.jpeg,.png"  
-          multiple
-          onChange={handleImageChange}
-        />
+        <div className="upload-wrapper">
+          <input
+            type="file"
+            id="file-upload"
+            accept=".jpg,.jpeg,.png"  
+            multiple
+            onChange={handleImageChange}
+            style={{ display: 'none' }} // Hide the default file input
+          />
+          <img
+            src={uploadIcon}
+            alt="Upload"
+            className="upload-icon"
+            onClick={() => document.getElementById('file-upload').click()} // Trigger file input click
+          />
+          {imgUrl && <img id="new" src={imgUrl} alt="Preview" />}
+        </div>
       </div>
       <button className="submit-button" onClick={handleSubmit}>
         Submit

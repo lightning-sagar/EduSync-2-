@@ -6,8 +6,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  max-width: 600px; /* Increased width */
+  margin: 0;
 }
 
 .create-container h2 {
@@ -16,32 +16,50 @@
 
 .form-group {
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  width: 100%;
 }
 
-.form-group textarea,
-.form-group input {
-  width: 100%;
+.form-group textarea {
+  width: 80%; /* Adjust width to 80% */
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #333;
   color: white;
-}
-
-.form-group textarea {
   resize: vertical;
 }
 
-.form-group input[type="file"] {
-  padding: 5px;
-  background-color: transparent;
-  color: white;
+.upload-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align to the left */
+  width: 100%; /* Match the width with the textarea */
+}
+
+.upload-icon {
+  width: 150px; /* Increased width */
+  height: 150px; /* Increased height */
+  cursor: pointer;
+  object-fit: contain;
+  margin-right: 20px; /* Add some space between the icon and the image */
+}
+
+#new {
+  width: 150px; /* Increased width */
+  height: 150px; /* Increased height */
+  display: block;
+  object-fit: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 4px;
 }
 
 .submit-button {
@@ -55,6 +73,7 @@
   display: block;
   width: 100%;
   text-align: center;
+  margin-top: 20px;
 }
 
 .submit-button:hover {

@@ -30,7 +30,18 @@ const Class = () => {
     };
     getNotice();
   },[subjectId])
-
+  const handleDeleteNotice = async (noticeId) => {
+    try {
+      const response = await fetch(`/api/s/notice/${noticeId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        SetNotice(Notice.filter((notice) => notice.id !== noticeId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const getsubject = async () => {
       try {
@@ -86,7 +97,13 @@ const Class = () => {
         {Notice.map((notice) => (
           <section className="notice">
             <h2>{notice.NoticeText}</h2>
-            <img src={notice.img} height={200} width={200} alt={notice.title} />
+            <img className='noticeimage' src={notice.img}  alt={notice.title} />
+            <button
+              className="delete-button"
+              onClick={() => handleDeleteNotice(notice.id)}
+            >
+              X
+            </button>
           </section>
         ))}
       </main>
