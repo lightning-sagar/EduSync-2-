@@ -42,32 +42,35 @@ const Addsubject = async (req, res) => {
     }
 }
 
-const GetSubject = async (req,res) => {
+const GetSubject = async (req, res) => {
     try {
-        console.log(req.params.Uid, "req.params");
         const userId = req.params.Uid;
 
-        if(!userId) {
+        if (!userId) {
             return res.status(400).json({ error: "User ID is required" });
         }
 
         const user = await User.findById(userId);
 
-        if(!user) {
+        if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
 
         const username = user.username;
+        const subjects = await Subject.find({
+            $or: [
+                { teacher: username }, 
+                { 'students.stuname': username }   
+            ]
+        });
 
-        const subjects = await Subject.find({ teacher: username });
-
-        if(!subjects) {
-            return res.status(404).json({ error: "Subjects not found" });
+        if (subjects.length === 0) {
+            return res.status(404).json({ error: "No subjects found" });
         }
-
-        return res.status(200).json( subjects );
+        return res.status(200).json(subjects);
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 }
 
@@ -124,4 +127,53 @@ const GetNotice = async (req, res) => {
     }
 };
 
-export {Addsubject,GetSubject,AddNotice,GetNotice};
+const deleteNotice = async(req,res) => {
+    try {
+        const nId = req.params.noticeId;
+        const SId = req.params.subjectId;
+        const subject = await Subject.findById(SId);
+        if (!subject) {
+            return res.status(404).json({ error: "Subject not found" });
+        }
+        //check ig=f the user is the teacher
+        const user = await User.findById(req.user._id);
+        const teacher = user.username;
+        if (subject.teacher !== teacher) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        const noticecheck = subject.notice.id(nId);
+        if (!noticecheck) {
+            return res.status(404).json({ error: "Notice not found" });
+        }
+        subject.notice.pull(nId);
+        await subject.save();
+        return res.status(200).json({ message: "Notice deleted successfully" });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const deleteSubject = async(req,res) => {
+    try {
+        const subjectId = req.params.subjectId;
+
+        const user = await User.findById(req.user._id);
+        const teacher = user.username;
+        const subject = await Subject.findById(subjectId);
+        if (!subject) {
+            return res.status(404).json({ error: "Subject not found" });
+        }
+        if (subject.teacher === teacher) {
+            await Subject.findByIdAndDelete(subjectId);
+        }
+        else{
+            //remove the userId from student
+            await subject.students.pull(user._id);
+        }
+        if(subject.teacher === teacher){}
+        return res.status(200).json({ message: "Subject deleted successfully" });
+    } catch (error) {
+        console.log(error)
+    }
+}
+export {Addsubject,GetSubject,AddNotice,GetNotice,deleteSubject,deleteNotice};

@@ -26,9 +26,10 @@ const SubjectSchema = new mongoose.Schema({
         default: ''
     },
     students: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: []
+        stuname:{
+            type: String,
+            default: null
+        }
     }]
 }, { timestamps: true });
 

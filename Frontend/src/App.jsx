@@ -32,7 +32,7 @@ const App = () => {
         <Chatbot />
        
       </> 
-    </Router>
+    </Router> 
   );
 };
 

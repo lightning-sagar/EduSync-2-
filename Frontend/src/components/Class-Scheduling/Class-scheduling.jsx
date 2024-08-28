@@ -127,6 +127,27 @@ const Class = ({ onNextClassTime }) => {
         navigate(`/subject/${id}`);
     };
 
+    const deleteClass = async(id) => {
+        try {
+            const res = await fetch(`/api/s/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            })
+            const data = await res.json();
+            if (data.err) {
+                console.log(data.err);
+            } else {
+                setSubject(subject.filter((classItem) => classItem._id !== id));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        // setSubject(subject.filter((classItem) => classItem._id !== id));
+    };
+
     return (
         <div className="class-container1">
             <div className="class-cards">
@@ -139,10 +160,13 @@ const Class = ({ onNextClassTime }) => {
                         >
                             <div className="subject-header">
                                 <h3 onClick={() => handleCardClick(classItem._id)}>{classItem.sname}</h3>
-                                <MdDelete
+                                {classItem && classItem.teacher === user.username && (
+                                  <MdDelete
                                     className="delete-icon"
-                                   
-                                />
+                                    onClick={() => deleteClass(classItem._id)}
+                                  />  
+                                )}
+                                
                             </div>
                             <div className="class-info">
                                 <img src={profileIcon} alt="Profile Icon" className="profile-icon" />

@@ -32,11 +32,16 @@ const Class = () => {
   },[subjectId])
   const handleDeleteNotice = async (noticeId) => {
     try {
-      const response = await fetch(`/api/s/notice/${noticeId}`, {
+      const response = await fetch(`/api/s/notice/${subjectId}/${noticeId}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
       });
+      const data = await response.json();
+      console.log(data);
       if (response.ok) {
-        SetNotice(Notice.filter((notice) => notice.id !== noticeId));
+        SetNotice(Notice.filter((notice) => notice._id !== noticeId));
       }
     } catch (error) {
       console.error(error);
@@ -64,6 +69,7 @@ const Class = () => {
     navigate(`/ebook/${id}`);  
   };
 
+  
   return (
     <div className="class-container">
       <aside className="sidebar">
@@ -71,7 +77,7 @@ const Class = () => {
           <h3>Classes</h3>
           {Subjects.map((subject) => (
             <ul>
-              <li>{subject.sname}</li>
+              <li onClick={() => navigate(`/subject/${subject._id}`)}>{subject.sname} </li>
             </ul>
           ))}
         </div>
@@ -98,12 +104,14 @@ const Class = () => {
           <section className="notice">
             <h2>{notice.NoticeText}</h2>
             <img className='noticeimage' src={notice.img}  alt={notice.title} />
-            <button
-              className="delete-button"
-              onClick={() => handleDeleteNotice(notice.id)}
-            >
-              X
-            </button>
+            {Subjects.teachers === user.username && (
+              <button
+                className="delete-button"
+                onClick={() => handleDeleteNotice(notice._id)}
+              >
+                X
+              </button>
+            )}
           </section>
         ))}
       </main>
